@@ -5,16 +5,20 @@ import by.epam.inner.beans.LightTrial;
 import by.epam.inner.beans.StrongTrial;
 import by.epam.inner.beans.Trial;
 import com.google.gson.JsonObject;
+import org.apache.log4j.Logger;
 
 import java.util.Optional;
 import static by.epam.inner.constants.Constants.*;
 
 public class TrialFactory {
+    private static final Logger LOGGER = Logger.getLogger("logfile");
+
     public static Optional<Trial> getTrialFromFactory(JsonObject jsonObject) {
         String className = jsonObject.get(CLASS_FIELD).getAsString();
         JsonObject trialJSON = jsonObject.get(ARGS_FIELD).getAsJsonObject();
 
         if (!isNumberOfFieldsValid(jsonObject, trialJSON)) {
+            LOGGER.warn(EXTRA_DATA + ARRAY_DELIMITER + jsonObject.toString());
             return Optional.empty();
         }
 
@@ -23,14 +27,17 @@ public class TrialFactory {
         int mark2 = trialJSON.get(MARK2_FIELD).getAsInt();
 
         if (account.equals(EMPTY_STRING)) {
+            LOGGER.error(EMPTY_NAME + ARRAY_DELIMITER + jsonObject.toString());
             return Optional.empty();
         }
 
         if (!isMarkValid(mark1)) {
+            LOGGER.error(WRONG_MARK1 + ARRAY_DELIMITER + jsonObject.toString());
             return Optional.empty();
         }
 
         if (!isMarkValid(mark2)) {
+            LOGGER.error(WRONG_MARK2 + ARRAY_DELIMITER + jsonObject.toString());
             return Optional.empty();
         }
 
@@ -44,11 +51,13 @@ public class TrialFactory {
             case EXTRA_TRIAL:
                 int mark3 = trialJSON.get(MARK3_FIELD).getAsInt();
                 if (!isMarkValid(mark3)) {
+                    LOGGER.error(WRONG_MARK3 + ARRAY_DELIMITER + jsonObject.toString());
                     return Optional.empty();
                 }
 
                 return Optional.of(new ExtraTrial(account, mark1, mark2, mark3));
             default:
+                LOGGER.error(WRONG_CLASS_NAME + ARRAY_DELIMITER + jsonObject.toString());
                 return Optional.empty();
 
         }
