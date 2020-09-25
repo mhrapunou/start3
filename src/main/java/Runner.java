@@ -34,8 +34,7 @@ public class Runner {
 			jsonObjects
 					.stream()
 					.map(TrialFactory::getTrialFromFactory)
-					.filter(Optional::isPresent)
-					.map(Optional::get)
+					.flatMap(Optional::stream)
 					.forEach(trials::add);
 
 		} catch (FileNotFoundException e) {
