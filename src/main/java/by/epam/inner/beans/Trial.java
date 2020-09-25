@@ -61,7 +61,7 @@ public class Trial {
 			return mark1 + mark2 >= PASS_MARK;
 		}
 
-		public String getMarksToString() {
+		protected String getMarksToString() {
 			return mark1 + DELIMITER + mark2;
 		}
 
