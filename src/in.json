@@ -1,0 +1,87 @@
+[
+	{
+		"class": "Trial",
+		"args": {
+			"account":"Stepanenko",
+			"mark1":70,
+			"mark2":65
+			}
+
+	},
+	{
+		"class": "Trial",
+		"args": {
+			"account":"Tretinnikov",
+			"mark1":68,
+			"mark2":25
+			}
+
+	},
+	{
+		"class": "Trial",
+		"args": {
+			"account":"Metelskaya",
+			"mark1":68,
+			"mark2":25
+			}
+
+	},
+
+	{
+		"class": "LightTrial",
+		"args": {
+			"account":"Alesenko",
+			"mark1":94,
+			"mark2":80
+			}
+
+	},
+	{
+		"class": "LightTrial",
+		"args": {
+			"account":"Merkulovich",
+			"mark1":41,
+			"mark2":38
+			}
+
+	},
+
+	{
+		"class": "StrongTrial",
+		"args": {
+			"account":"Shardin",
+			"mark1":87,
+			"mark2":82
+			}
+
+	},
+	{
+		"class": "StrongTrial",
+		"args": {
+			"account":"Astryakov",
+			"mark1":47,
+			"mark2":36
+			}
+
+	},
+	{
+		"class": "ExtraTrial",
+		"args": {
+			"account":"Yanochkin",
+			"mark1":33,
+			"mark2":75,
+			"mark3":42
+			}
+
+	},
+	{
+		"class": "ExtraTrial",
+		"args": {
+			"account":"Rusetskiy",
+			"mark1":97,
+			"mark2":85,
+			"mark3":88
+			}
+
+	}
+]
