@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import org.apache.log4j.Logger;
 
 
 import java.io.FileNotFoundException;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 
 public class Runner {
+	public static final Logger LOGGER = Logger.getLogger("logfile");
 
 	public static void main(String[] args) {
 			
@@ -45,14 +47,14 @@ public class Runner {
 
 		//2. Print the collection content (one element per line).
 
-		trials.forEach(System.out::println);
+		trials.forEach(LOGGER::info);
 		
 		//3. Print the number of passed trials.
 		
 		long passedNumber = trials.stream()
 								.filter(Trial::isPassed)
 								.count();
-		System.out.println(Constants.MSG_PASSED + passedNumber);
+		LOGGER.info(Constants.MSG_PASSED + passedNumber);
 		
 		//4. Sort the collection by the sum of first and second marks.
 		
@@ -61,11 +63,11 @@ public class Runner {
 		trials.sort(Comparator.comparingInt(sumMarks));
 		
 		//5. Print sums of first and second marks from the collection (one sum per line).
-		System.out.println(Constants.MSG_SUM);
+		LOGGER.info(Constants.MSG_SUM);
 		
 		trials.stream()
 					.mapToInt(sumMarks)
-					.forEach(System.out::println);
+					.forEach(sum -> LOGGER.info(sum));
 		
 		
 		//6. Create a new collection from unpassed trials, clear all marks and print this collection. Check whether all trials are failed (the result type is boolean). 
@@ -74,7 +76,7 @@ public class Runner {
 								.filter(trial -> !trial.isPassed())
 								.map(Trial::copy)
 								.peek(Trial::clearMarks)
-								.peek(System.out::println)
+								.peek(LOGGER::info)
 								.collect(Collectors.toList());
 		
 		System.out.println(Constants.ALL_FAILED + unpassedList.stream().noneMatch(Trial::isPassed));
@@ -85,7 +87,7 @@ public class Runner {
 							.mapToInt(sumMarks)
 							.toArray();
 		
-		System.out.println(Arrays.stream(summArray)
+		LOGGER.info(Arrays.stream(summArray)
 							.mapToObj(Integer::toString)
 							.collect(Collectors.joining(",")));
 

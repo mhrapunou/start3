@@ -5,8 +5,8 @@
 			"account":"Stepanenko",
 			"mark1":70,
 			"mark2":65
-			}
-
+			},
+		"ups!": "hello"
 	},
 	{
 		"class": "Trial",
@@ -21,8 +21,8 @@
 		"class": "Trial",
 		"args": {
 			"account":"Metelskaya",
-			"mark1":68,
-			"mark2":25
+			"mark1":78,
+			"mark2":85
 			}
 
 	},
@@ -40,7 +40,7 @@
 		"class": "LightTrial",
 		"args": {
 			"account":"Merkulovich",
-			"mark1":41,
+			"mark1":42,
 			"mark2":38
 			}
 
@@ -80,8 +80,9 @@
 			"account":"Rusetskiy",
 			"mark1":97,
 			"mark2":85,
-			"mark3":88
-			}
+			"mark3":88,
+			"mark5":89
+		}
 
 	}
 ]
