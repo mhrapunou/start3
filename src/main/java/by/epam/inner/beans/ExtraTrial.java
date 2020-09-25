@@ -44,8 +44,8 @@ public class ExtraTrial extends Trial {
 	}
 
 	@Override
-	protected String fieldsToString() {
-		return DELIMITER + mark3;
+	public String getMarksToString() {
+		return super.getMarksToString() + DELIMITER + mark3;
 	}
 
 }

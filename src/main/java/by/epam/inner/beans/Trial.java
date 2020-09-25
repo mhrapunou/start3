@@ -61,13 +61,13 @@ public class Trial {
 			return mark1 + mark2 >= PASS_MARK;
 		}
 
-		protected String fieldsToString(){
-			return   DELIMITER;
+		public String getMarksToString() {
+			return mark1 + DELIMITER + mark2;
 		}
-		
+
 		@Override
 		public String toString() {
-			return account + DELIMITER + mark1 + DELIMITER + mark2 +  fieldsToString() +  DELIMITER + isPassed();
+			return account + DELIMITER + getMarksToString() + DELIMITER + isPassed();
 		}
 
 }
