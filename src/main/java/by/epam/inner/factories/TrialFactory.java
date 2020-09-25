@@ -7,16 +7,17 @@ import by.epam.inner.beans.Trial;
 import com.google.gson.JsonObject;
 
 import java.util.Optional;
+import static by.epam.inner.constants.Constants.*;
 
 public class TrialFactory {
     public static Optional<Trial> getTrialFromFactory(JsonObject jsonObject) {
-        String className = jsonObject.get("class").getAsString();
-        JsonObject trialJSON = jsonObject.get("args").getAsJsonObject();
-        String account = trialJSON.get("account").getAsString();
-        int mark1 = trialJSON.get("mark1").getAsInt();
-        int mark2 = trialJSON.get("mark2").getAsInt();
+        String className = jsonObject.get(CLASS_FIELD).getAsString();
+        JsonObject trialJSON = jsonObject.get(ARGS_FIELD).getAsJsonObject();
+        String account = trialJSON.get(ACCOUNT_FIELD).getAsString();
+        int mark1 = trialJSON.get(MARK1_FIELD).getAsInt();
+        int mark2 = trialJSON.get(MARK2_FIELD).getAsInt();
 
-        if (account.equals("")) {
+        if (account.equals(EMPTY_STRING)) {
             return Optional.empty();
         }
 
@@ -29,14 +30,14 @@ public class TrialFactory {
         }
 
         switch (className) {
-            case "Trial":
+            case TRIAL:
                 return Optional.of(new Trial(account, mark1, mark2));
-            case "LightTrial":
+            case LIGHT_TRIAL:
                 return  Optional.of(new LightTrial(account, mark1, mark2));
-            case "StrongTrial":
+            case STRONG_TRIAL:
                 return Optional.of(new StrongTrial(account, mark1, mark2));
-            case "ExtraTrial":
-                int mark3 = trialJSON.get("mark3").getAsInt();
+            case EXTRA_TRIAL:
+                int mark3 = trialJSON.get(MARK3_FIELD).getAsInt();
                 if (!isMarkValid(mark3)) {
                     return Optional.empty();
                 }
