@@ -1,5 +1,6 @@
 package by.epam.inner.beans;
 
+import by.epam.inner.beans.Trial;
 import junit.framework.TestCase;
 
 public class TrialTest extends TestCase {
@@ -60,7 +61,7 @@ public class TrialTest extends TestCase {
         assertFalse(testTrialUnpassed.isPassed());
     }
 
-    public void testGetMarksToString() {
+   public void testGetMarksToString() {
         assertEquals("78;85", testTrialPassed.getMarksToString());
     }
 
