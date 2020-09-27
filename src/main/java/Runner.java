@@ -2,11 +2,9 @@
 import by.epam.inner.beans.Trial;
 import by.epam.inner.constants.Constants;
 import by.epam.inner.factories.TrialFactory;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import org.apache.log4j.Logger;
+
 
 
 import java.io.FileNotFoundException;
@@ -16,10 +14,11 @@ import java.util.*;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
+import static by.epam.inner.constants.Constants.*;
 
 
 public class Runner {
-	public static final Logger LOGGER = Logger.getLogger("logfile");
+
 
 	public static void main(String[] args) {
 			
@@ -27,10 +26,11 @@ public class Runner {
 		List<Trial> trials = new ArrayList<>();
 
 		try {
-			Reader reader = new FileReader("src/in.json");
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			Reader reader = new FileReader(FILE_NAME);
 
-			List<JsonObject> jsonObjects = gson.fromJson(reader, new TypeToken<List<JsonObject>>(){}.getType());
+			//Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+			List<JsonObject> jsonObjects = GSON.fromJson(reader, new TypeToken<List<JsonObject>>(){}.getType());
 			jsonObjects
 					.stream()
 					.map(TrialFactory::getTrialFromFactory)
@@ -38,8 +38,7 @@ public class Runner {
 					.forEach(trials::add);
 
 		} catch (FileNotFoundException e) {
-			//antipattern!)
-			e.printStackTrace();
+			LOGGER.fatal(FILE_NOT_FOUND + FILE_NAME);
 		}
 
 
@@ -78,7 +77,7 @@ public class Runner {
 								.peek(LOGGER::info)
 								.collect(Collectors.toList());
 		
-		System.out.println(Constants.ALL_FAILED + unpassedList.stream().noneMatch(Trial::isPassed));
+		LOGGER.info(Constants.ALL_FAILED + unpassedList.stream().noneMatch(Trial::isPassed));
 		
 		//7. Create a numeric array from sums of first and second marks of sorted collection (see item 4) and print it in the format: sum[0], sum[1], � , sum[sum.length - 1]
 

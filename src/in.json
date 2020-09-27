@@ -32,7 +32,8 @@
 		"args": {
 			"account":"Alesenko",
 			"mark1":94,
-			"mark2":80
+			"mark2":80,
+			"smth": 2
 			}
 
 	},
@@ -82,6 +83,23 @@
 			"mark2":85,
 			"mark3":88,
 			"mark5":89
+		}
+	},
+	{
+		"class": "ExtraTrial",
+		"argys": {
+			"account":"null",
+			"mark1":97,
+			"mark2":85
+		}
+	},
+	{
+
+	},
+	{
+		"class": "StrongTrial",
+		"args": {
+
 		}
 
 	}

@@ -1,42 +1,45 @@
 package by.epam.inner.factories;
 
 import by.epam.inner.beans.ExtraTrial;
-import by.epam.inner.beans.LightTrial;
-import by.epam.inner.beans.StrongTrial;
 import by.epam.inner.beans.Trial;
-import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.apache.log4j.Logger;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+
 import static by.epam.inner.constants.Constants.*;
 
 public class TrialFactory {
-    private static final Logger LOGGER = Logger.getLogger("logfile");
 
     public static Optional<Trial> getTrialFromFactory(JsonObject jsonObject) {
         try {
-            Gson gson = new Gson();
-            String className = jsonObject.get(CLASS_FIELD).getAsString();
-            JsonObject trialJSON = jsonObject.get(ARGS_FIELD).getAsJsonObject();
+            String className = getValidJsonElement(jsonObject, CLASS_FIELD)
+                    .orElseThrow(IllegalArgumentException::new)
+                    .getAsString();
+            JsonObject argslJSON = getValidJsonElement(jsonObject, ARGS_FIELD)
+                    .orElseThrow(IllegalArgumentException::new)
+                    .getAsJsonObject();
 
-            Class<Trial> trialClass = (Class<Trial>) Class.forName("by.epam.inner.beans." + className);
-
-            if (!isNumberOfFieldsValid(jsonObject, trialJSON)) {
-                LOGGER.warn(EXTRA_DATA + ARRAY_DELIMITER + jsonObject.toString());
-                //return Optional.empty();
+            if (jsonObject.size() != JSON_FIELDS_NUMBER) {
+                LOGGER.warn(EXTRA_DATA_IN_JSONOBJECT + ARRAY_DELIMITER + jsonObject.toString());
             }
 
-            return Optional.ofNullable(gson.fromJson(trialJSON, trialClass))
-                    .filter(TrialFactory::isFieldsValid);
+            Class<Trial> trialClass = (Class<Trial>) Class.forName(PACKAGE_NAME + className);
+
+            Trial trial = GSON.fromJson(argslJSON, trialClass);
+
+            if (!isCorrectNumberOfArgs(trialClass, argslJSON)){
+                LOGGER.warn(INCORRECT_DATA_IN_ARGS + ARRAY_DELIMITER + argslJSON.toString());
+            }
+
+            return Optional.ofNullable(trial)
+                    .filter(TrialFactory::isTrialValid);
 
 
-           /*String account = trialJSON.get(ACCOUNT_FIELD).getAsString();
-            int mark1 = trialJSON.get(MARK1_FIELD).getAsInt();
-            int mark2 = trialJSON.get(MARK2_FIELD).getAsInt();
+
+           /*String account = argslJSON.get(ACCOUNT_FIELD).getAsString();
+            int mark1 = argslJSON.get(MARK1_FIELD).getAsInt();
+            int mark2 = argslJSON.get(MARK2_FIELD).getAsInt();
 
             if (account.equals(EMPTY_STRING)) {
                 LOGGER.error(EMPTY_NAME + ARRAY_DELIMITER + jsonObject.toString());
@@ -61,7 +64,7 @@ public class TrialFactory {
                 case STRONG_TRIAL:
                     return Optional.of(new StrongTrial(account, mark1, mark2));
                 case EXTRA_TRIAL:
-                    int mark3 = trialJSON.get(MARK3_FIELD).getAsInt();
+                    int mark3 = argslJSON.get(MARK3_FIELD).getAsInt();
                     if (!isMarkValid(mark3)) {
                         LOGGER.error(WRONG_MARK3 + ARRAY_DELIMITER + jsonObject.toString());
                         return Optional.empty();
@@ -76,26 +79,34 @@ public class TrialFactory {
         }catch (ClassNotFoundException e){
             LOGGER.error(WRONG_CLASS_NAME + ARRAY_DELIMITER + jsonObject.toString());
             return Optional.empty();
+        }catch (IllegalArgumentException e){
+            LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + ARRAY_DELIMITER + jsonObject.toString());
+            return Optional.empty();
         }
     }
 
-
-
-    private static boolean isNumberOfFieldsValid(JsonObject jsonObject, JsonObject trialJson) {
-        if (jsonObject.entrySet().size() == JSON_FIELDS_NUMBER) {
-            if (!jsonObject.get(CLASS_FIELD).getAsString().equals(EXTRA_TRIAL)) {
-                return trialJson.entrySet().size() == TRIAL_FIELDS_NUMBER;
-            } else {
-                return trialJson.entrySet().size() == EXTRA_TRIAL_FIELDS_NUMBER;
-            }
-        }else return false;
+    private static boolean isCorrectNumberOfArgs(Class<? extends Trial> trialClass, JsonObject args) {
+        int argsNumber = args.size();
+        return (trialClass == ExtraTrial.class
+                 && argsNumber == EXTRA_TRIAL_FIELDS_NUMBER)
+                || (trialClass != ExtraTrial.class
+                && argsNumber == TRIAL_FIELDS_NUMBER);
     }
 
-    private static boolean isFieldsValid(Trial trial){
-        return !trial.getAccount().isEmpty()
+    private static Optional<JsonElement> getValidJsonElement(JsonObject jsonObject, String argsName){
+        return Optional.ofNullable(jsonObject.get(argsName));
+    }
+
+    private static boolean isTrialValid(Trial trial){
+        boolean isValid =  Objects.nonNull(trial.getAccount())
+                &&!trial.getAccount().isEmpty()
                 && isMarkValid(trial.getMark1())
                 && isMarkValid(trial.getMark2())
                 && (!(trial instanceof ExtraTrial) || isMarkValid(((ExtraTrial)trial).getMark3()));
+        if (!isValid){
+            LOGGER.error(WRONG_TRIAL + ARRAY_DELIMITER + trial);
+        }
+        return isValid;
     }
 
     private static boolean isMarkValid(int mark){
