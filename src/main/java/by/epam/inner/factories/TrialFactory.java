@@ -4,6 +4,7 @@ import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.beans.Trial;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
 import java.util.*;
 
@@ -81,6 +82,10 @@ public class TrialFactory {
             return Optional.empty();
         }catch (IllegalArgumentException e){
             LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + ARRAY_DELIMITER + jsonObject.toString());
+            return Optional.empty();
+        }
+        catch (JsonSyntaxException e){
+            LOGGER.error(WRONG_JSON_SYNTAX + ARRAY_DELIMITER + jsonObject);
             return Optional.empty();
         }
     }

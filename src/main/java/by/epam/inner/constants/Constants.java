@@ -38,6 +38,7 @@ public class Constants {
 	public final static String EXTRA_DATA_IN_JSONOBJECT = "Extra data in json object";
 	public final static String INCORRECT_DATA_IN_ARGS = "Wrong number of fields in args";
 	public final static String EMPTY_DATA_IN_JSONOBJECT = "Vital data for creating Trial entity isn't present in JSON object";
+	public final static String WRONG_JSON_SYNTAX = "Type of JSON data mismatches the type of Trial data";
 	public final static String EMPTY_NAME = "Empty name ";
 	public final static String WRONG_MARK1 = "Mark1 is wrong ";
 	public final static String WRONG_MARK2 = "Mark2 is wrong";
@@ -45,6 +46,7 @@ public class Constants {
 	public final static String WRONG_TRIAL = "Trial is wrong";
 	public final static String WRONG_CLASS_NAME = "ClassName not match or empty";
 	public static final String FILE_NOT_FOUND = "couldn't open the file: ";
+
 
 	
 }

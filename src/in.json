@@ -87,8 +87,8 @@
 	},
 	{
 		"class": "ExtraTrial",
-		"argys": {
-			"account":"null",
+		"arguments": {
+			"account":"wrong1",
 			"mark1":97,
 			"mark2":85
 		}
@@ -102,5 +102,24 @@
 
 		}
 
+	},
+	{
+		"class": "ExtraTrial",
+		"args": {
+			"account": "wrong",
+			"mark1":{
+				"name":"incorrect",
+				"num":55
+			},
+			"mark2":85
+		}
+	},
+	{
+		"class": "ExtraTrial",
+		"args": {
+			"account": "wrong2",
+			"markus1":15,
+			"mark2":85
+		}
 	}
 ]
