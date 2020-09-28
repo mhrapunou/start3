@@ -12,13 +12,13 @@ public class ExtraTrialTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         passedExtraTrial = new ExtraTrial("Cool", 80, 70, 90);
         emptyExtraTrial = new ExtraTrial();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         passedExtraTrial = null;
         emptyExtraTrial = null;
     }
