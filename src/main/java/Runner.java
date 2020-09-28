@@ -26,7 +26,8 @@ public class Runner {
 		List<Trial> trials = new ArrayList<>();
 
 		try {
-			Reader reader = new FileReader(FILE_NAME);
+			final String JSON_FILE_NAME = getValidArg(args[0]).orElseThrow(IllegalArgumentException::new);
+			Reader reader = new FileReader(JSON_FILE_NAME);
 
 			//Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -37,6 +38,8 @@ public class Runner {
 					.flatMap(Optional::stream)
 					.forEach(trials::add);
 
+		} catch (IllegalArgumentException e){
+			LOGGER.error(EMPTY_FILE_NAME);
 		} catch (FileNotFoundException e) {
 			LOGGER.fatal(FILE_NOT_FOUND + FILE_NAME);
 		}
@@ -89,15 +92,10 @@ public class Runner {
 							.mapToObj(Integer::toString)
 							.collect(Collectors.joining(",")));
 
-	
-		
-		
-		
-
-		
-		
-
-
+	}
+	private static Optional<String> getValidArg(String arg){
+		return Optional.ofNullable(arg)
+				       .filter(incomingArg -> !incomingArg.isEmpty());
 	}
 
 }
