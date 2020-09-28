@@ -36,52 +36,11 @@ public class TrialFactory {
             return Optional.ofNullable(trial)
                     .filter(TrialFactory::isTrialValid);
 
-
-
-           /*String account = argslJSON.get(ACCOUNT_FIELD).getAsString();
-            int mark1 = argslJSON.get(MARK1_FIELD).getAsInt();
-            int mark2 = argslJSON.get(MARK2_FIELD).getAsInt();
-
-            if (account.equals(EMPTY_STRING)) {
-                LOGGER.error(EMPTY_NAME + ARRAY_DELIMITER + jsonObject.toString());
-                return Optional.empty();
-            }
-
-            if (!isMarkValid(mark1)) {
-                LOGGER.error(WRONG_MARK1 + ARRAY_DELIMITER + jsonObject.toString());
-                return Optional.empty();
-            }
-
-            if (!isMarkValid(mark2)) {
-                LOGGER.error(WRONG_MARK2 + ARRAY_DELIMITER + jsonObject.toString());
-                return Optional.empty();
-            }
-
-            switch (className) {
-                case TRIAL:
-                    return Optional.of(new Trial(account, mark1, mark2));
-                case LIGHT_TRIAL:
-                    return Optional.of(new LightTrial(account, mark1, mark2));
-                case STRONG_TRIAL:
-                    return Optional.of(new StrongTrial(account, mark1, mark2));
-                case EXTRA_TRIAL:
-                    int mark3 = argslJSON.get(MARK3_FIELD).getAsInt();
-                    if (!isMarkValid(mark3)) {
-                        LOGGER.error(WRONG_MARK3 + ARRAY_DELIMITER + jsonObject.toString());
-                        return Optional.empty();
-                    }
-
-                    return Optional.of(new ExtraTrial(account, mark1, mark2, mark3));
-                default:
-                    LOGGER.error(WRONG_CLASS_NAME + ARRAY_DELIMITER + jsonObject.toString());
-                    return Optional.empty();
-
-            }*/
         }catch (ClassNotFoundException e){
-            LOGGER.error(WRONG_CLASS_NAME + ARRAY_DELIMITER + jsonObject.toString());
+            LOGGER.error(WRONG_CLASS_NAME + ARRAY_DELIMITER + jsonObject);
             return Optional.empty();
         }catch (IllegalArgumentException e){
-            LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + ARRAY_DELIMITER + jsonObject.toString());
+            LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + ARRAY_DELIMITER + jsonObject);
             return Optional.empty();
         }
         catch (JsonSyntaxException e){
