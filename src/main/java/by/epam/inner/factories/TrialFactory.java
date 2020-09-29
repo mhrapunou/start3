@@ -22,7 +22,7 @@ public class TrialFactory {
                     .getAsJsonObject();
 
             if (jsonObject.size() != JSON_FIELDS_NUMBER) {
-                LOGGER.warn(EXTRA_DATA_IN_JSONOBJECT + ARRAY_DELIMITER + jsonObject.toString());
+                LOGGER.warn(EXTRA_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + jsonObject.toString());
             }
 
             Class<Trial> trialClass = (Class<Trial>) Class.forName(PACKAGE_NAME + className);
@@ -30,21 +30,21 @@ public class TrialFactory {
             Trial trial = GSON.fromJson(argslJSON, trialClass);
 
             if (!isCorrectNumberOfArgs(trialClass, argslJSON)){
-                LOGGER.warn(INCORRECT_DATA_IN_ARGS + ARRAY_DELIMITER + argslJSON.toString());
+                LOGGER.warn(INCORRECT_DATA_IN_ARGS + EXCEPTION_DELIMITER + argslJSON.toString());
             }
 
             return Optional.ofNullable(trial)
                     .filter(TrialFactory::isTrialValid);
 
         }catch (ClassNotFoundException e){
-            LOGGER.error(WRONG_CLASS_NAME + ARRAY_DELIMITER + jsonObject);
+            LOGGER.error(WRONG_CLASS_NAME + EXCEPTION_DELIMITER + jsonObject);
             return Optional.empty();
         }catch (IllegalArgumentException e){
-            LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + ARRAY_DELIMITER + jsonObject);
+            LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + jsonObject);
             return Optional.empty();
         }
         catch (JsonSyntaxException e){
-            LOGGER.error(WRONG_JSON_SYNTAX + ARRAY_DELIMITER + jsonObject);
+            LOGGER.error(WRONG_JSON_SYNTAX + EXCEPTION_DELIMITER + jsonObject);
             return Optional.empty();
         }
     }
@@ -68,7 +68,7 @@ public class TrialFactory {
                 && isMarkValid(trial.getMark2())
                 && (!(trial instanceof ExtraTrial) || isMarkValid(((ExtraTrial)trial).getMark3()));
         if (!isValid){
-            LOGGER.error(WRONG_TRIAL + ARRAY_DELIMITER + trial);
+            LOGGER.error(WRONG_TRIAL + EXCEPTION_DELIMITER + trial);
         }
         return isValid;
     }

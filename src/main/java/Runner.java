@@ -6,10 +6,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
@@ -20,82 +20,77 @@ import static by.epam.inner.constants.Constants.*;
 public class Runner {
 
 
-	public static void main(String[] args) {
-			
-		//1. Create an ArrayList implementation for 9 entities (3 � for a superclass and 2 � for every subclass).
-		List<Trial> trials = new ArrayList<>();
+    public static void main(String[] args) {
 
-		try {
-			final String JSON_FILE_NAME = getValidArg(args[0]).orElseThrow(IllegalArgumentException::new);
-			Reader reader = new FileReader(JSON_FILE_NAME);
+        //1. Create an ArrayList implementation for 9 entities (3 � for a superclass and 2 � for every subclass).
 
-			//Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try {
+            final String JSON_FILE_NAME = getValidArg(args[0]).orElseThrow(IllegalArgumentException::new);
 
-			List<JsonObject> jsonObjects = GSON.fromJson(reader, new TypeToken<List<JsonObject>>(){}.getType());
-			jsonObjects
-					.stream()
-					.map(TrialFactory::getTrialFromFactory)
-					.flatMap(Optional::stream)
-					.forEach(trials::add);
+            Type type = new TypeToken<List<JsonObject>>() {
+            }.getType();
+            List<JsonObject> jsonObjects = GSON.fromJson(new FileReader(JSON_FILE_NAME), type);
 
-		} catch (IllegalArgumentException e){
-			LOGGER.error(EMPTY_FILE_NAME);
-		} catch (FileNotFoundException e) {
-			LOGGER.fatal(FILE_NOT_FOUND + FILE_NAME);
-		}
+            List<Trial> trials = jsonObjects.stream()
+                    .map(TrialFactory::getTrialFromFactory)
+                    .flatMap(Optional::stream)
+                    .collect(Collectors.toList());
+
+            //2. Print the collection content (one element per line).
+
+            trials.forEach(LOGGER::info);
+
+            //3. Print the number of passed trials.
+
+            long passedNumber = trials.stream()
+                    .filter(Trial::isPassed)
+                    .count();
+            LOGGER.info(Constants.MSG_PASSED + passedNumber);
+
+            //4. Sort the collection by the sum of first and second marks.
+
+            ToIntFunction<Trial> sumMarks = trial -> trial.getMark1() + trial.getMark2();
+
+            trials.sort(Comparator.comparingInt(sumMarks));
+
+            //5. Print sums of first and second marks from the collection (one sum per line).
+            LOGGER.info(Constants.MSG_SUM);
+
+            trials.stream()
+                    .mapToInt(sumMarks)
+                    .forEach(sum -> LOGGER.info(sum));
 
 
+            //6. Create a new collection from unpassed trials, clear all marks and print this collection. Check whether all trials are failed (the result type is boolean).
 
-		//2. Print the collection content (one element per line).
+            List<Trial> unpassedList = trials.stream()
+                    .filter(trial -> !trial.isPassed())
+                    .map(Trial::copy)
+                    .peek(Trial::clearMarks)
+                    .peek(LOGGER::info)
+                    .collect(Collectors.toList());
 
-		trials.forEach(LOGGER::info);
-		
-		//3. Print the number of passed trials.
-		
-		long passedNumber = trials.stream()
-								.filter(Trial::isPassed)
-								.count();
-		LOGGER.info(Constants.MSG_PASSED + passedNumber);
-		
-		//4. Sort the collection by the sum of first and second marks.
-		
-		ToIntFunction <Trial> sumMarks = trial -> trial.getMark1() + trial.getMark2();
-		
-		trials.sort(Comparator.comparingInt(sumMarks));
-		
-		//5. Print sums of first and second marks from the collection (one sum per line).
-		LOGGER.info(Constants.MSG_SUM);
-		
-		trials.stream()
-					.mapToInt(sumMarks)
-					.forEach(sum -> LOGGER.info(sum));
-		
-		
-		//6. Create a new collection from unpassed trials, clear all marks and print this collection. Check whether all trials are failed (the result type is boolean). 
-		
-		List<Trial> unpassedList = trials.stream()
-								.filter(trial -> !trial.isPassed())
-								.map(Trial::copy)
-								.peek(Trial::clearMarks)
-								.peek(LOGGER::info)
-								.collect(Collectors.toList());
-		
-		LOGGER.info(Constants.ALL_FAILED + unpassedList.stream().noneMatch(Trial::isPassed));
-		
-		//7. Create a numeric array from sums of first and second marks of sorted collection (see item 4) and print it in the format: sum[0], sum[1], � , sum[sum.length - 1]
+            LOGGER.info(Constants.ALL_FAILED + unpassedList.stream().noneMatch(Trial::isPassed));
 
-		int[] summArray = trials.stream()
-							.mapToInt(sumMarks)
-							.toArray();
-		
-		LOGGER.info(Arrays.stream(summArray)
-							.mapToObj(Integer::toString)
-							.collect(Collectors.joining(",")));
+            //7. Create a numeric array from sums of first and second marks of sorted collection (see item 4) and print it in the format: sum[0], sum[1], � , sum[sum.length - 1]
 
-	}
-	private static Optional<String> getValidArg(String arg){
-		return Optional.ofNullable(arg)
-				       .filter(incomingArg -> !incomingArg.isEmpty());
-	}
+            int[] summArray = trials.stream()
+                    .mapToInt(sumMarks)
+                    .toArray();
+
+            LOGGER.info(Arrays.stream(summArray)
+                    .mapToObj(Integer::toString)
+                    .collect(Collectors.joining(ARRAY_DELIMITER)));
+        } catch (IllegalArgumentException e) {
+            LOGGER.error(EMPTY_FILE_NAME);
+        } catch (FileNotFoundException e) {
+            LOGGER.fatal(FILE_NOT_FOUND + FILE_NAME);
+        }
+    }
+
+    private static Optional<String> getValidArg(String arg) {
+        return Optional.ofNullable(arg)
+                .filter(incomingArg -> !incomingArg.isEmpty());
+    }
 
 }

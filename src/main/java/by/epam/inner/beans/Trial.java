@@ -62,12 +62,12 @@ public class Trial {
 		}
 
 		protected String getMarksToString() {
-			return mark1 + DELIMITER + mark2;
+			return mark1 + CSV_DELIMITER + mark2;
 		}
 
 		@Override
 		public String toString() {
-			return account + DELIMITER + getMarksToString() + DELIMITER + isPassed();
+			return account + CSV_DELIMITER + getMarksToString() + CSV_DELIMITER + isPassed();
 		}
 
 }
