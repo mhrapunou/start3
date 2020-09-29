@@ -41,7 +41,6 @@ public class TrialDeserializer implements JsonDeserializer<Trial> {
 
         String[] fullClassName = type.getTypeName().split("\\.");
         String trialKind = fullClassName[fullClassName.length - 1].toUpperCase();
-
         /*JsonObject jsonObject = element.getAsJsonObject();
         String trialKind = jsonObject.get(CLASS_FIELD).getAsString().toUpperCase();*/
         return TrialKind.valueOf(trialKind).getTrial(element);
