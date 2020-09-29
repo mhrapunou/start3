@@ -18,7 +18,7 @@ public class TrialValidator {
         try {
             this.trial = trialClass.getConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new IllegalArgumentException(WRONG_CLASS_NAME);
+            throw new IllegalArgumentException(WRONG_CLASS_NAME );
         }
     }
 
@@ -26,7 +26,7 @@ public class TrialValidator {
         JsonObject jsonObject = element.getAsJsonObject();
 
         if (!checkArgsAndSetFields(jsonObject)){
-            LOGGER.warn(INCORRECT_DATA_IN_ARGS + EXCEPTION_DELIMITER + jsonObject);
+            //LOGGER.warn(INCORRECT_DATA_IN_ARGS + EXCEPTION_DELIMITER + jsonObject);
             return Optional.empty();
         }else {
             return Optional.of(getTrial());
@@ -39,7 +39,7 @@ public class TrialValidator {
         JsonElement mark1 = args.get(MARK1_FIELD);
         JsonElement mark2 = args.get(MARK2_FIELD);
         if (!isJsonElementValid(account) || !isJsonElementValid(mark1) || !isJsonElementValid(mark2)) {
-            LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
+            //LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
             return false;
         }
 
@@ -54,7 +54,7 @@ public class TrialValidator {
             trial.setMark2(mark2.getAsInt());
             return true;
         }else {
-            LOGGER.error(WRONG_TRIAL + EXCEPTION_DELIMITER + args);
+            //LOGGER.error(WRONG_TRIAL + EXCEPTION_DELIMITER + args);
             return false;
         }
     }

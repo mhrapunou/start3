@@ -41,6 +41,8 @@ public class Constants {
 	public final static String WRONG_CLASS_NAME = "ClassName not match or empty";
 	public static final String FILE_NOT_FOUND = "couldn't open the file: ";
 	public static final String EMPTY_FILE_NAME = "File name is empty or null";
+	public static final String WRONG_CLASS_FIELD_NAME = "Wrong name of class field ";
+	public static final String WRONG_ARGS_FIELD_NAME = "Wrong name of args field ";
 
 	public static final String EXTRA_TRIAL_NAME = "ExtraTrial";
 

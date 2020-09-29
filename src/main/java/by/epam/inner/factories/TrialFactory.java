@@ -25,21 +25,25 @@ public class TrialFactory {
 
         try {
             String className = getValidJsonElement(jsonObject, CLASS_FIELD)
-                    .orElseThrow(IllegalArgumentException::new)
+                    .orElseThrow((( () -> new IllegalArgumentException(WRONG_CLASS_FIELD_NAME))))
                     .getAsString();
             JsonObject args = getValidJsonElement(jsonObject, ARGS_FIELD)
-                    .orElseThrow(IllegalArgumentException::new)
+                    .orElseThrow((() -> new IllegalArgumentException(WRONG_ARGS_FIELD_NAME)))
                     .getAsJsonObject();
 
             if (jsonObject.size() != JSON_FIELDS_NUMBER) {
                 LOGGER.warn(EXTRA_DATA_IN_JSONOBJECT + ARRAY_DELIMITER + jsonObject);
             }
 
-            Class<Trial> classType = (Class<Trial>) Class.forName(PACKAGE_NAME + className);
-            return Optional.of(GSON.fromJson(args, classType));
+            try {
+                Class<Trial> classType = (Class<Trial>) Class.forName(PACKAGE_NAME + className);
+                return Optional.of(GSON.fromJson(args, classType));
+            }catch (ClassNotFoundException e){
+                throw new IllegalArgumentException(WRONG_CLASS_NAME);
+            }
 
-        } catch (IllegalArgumentException | ClassNotFoundException e) {
-            LOGGER.error(e.getMessage() + ARRAY_DELIMITER + jsonObject);
+        } catch (IllegalArgumentException e) {
+            LOGGER.error(e.getMessage() + EXCEPTION_DELIMITER + jsonObject);
             return Optional.empty();
         }
 
