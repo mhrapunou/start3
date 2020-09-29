@@ -21,6 +21,10 @@ public class Constants {
 
 	public final static String CLASS_FIELD = "class";
 	public final static String ARGS_FIELD = "args";
+	public final static String ACCOUNT_FIELD = "account";
+	public final static String MARK1_FIELD = "mark1";
+	public final static String MARK2_FIELD = "mark2";
+	public final static String MARK3_FIELD = "mark3";
 
 	public static int JSON_FIELDS_NUMBER = 2;
 	public static int TRIAL_FIELDS_NUMBER = 3;

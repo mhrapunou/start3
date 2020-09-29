@@ -27,6 +27,8 @@ public class TrialFactory {
 
             Class<Trial> trialClass = (Class<Trial>) Class.forName(PACKAGE_NAME + className);
 
+
+
             Trial trial = GSON.fromJson(argslJSON, trialClass);
 
             if (!isCorrectNumberOfArgs(trialClass, argslJSON)){
