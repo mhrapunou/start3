@@ -26,7 +26,7 @@ public class ExtraTrialValidator extends TrialValidator {
     protected boolean checkArgsAndSetFields(JsonObject args){
         super.checkArgsAndSetFields(args);
         JsonElement mark3 = args.get(MARK3_FIELD);
-        if (Objects.isNull(mark3)) {
+        if (!isJsonElementValid(mark3)) {
             LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
             return false;
         }

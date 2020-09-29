@@ -35,9 +35,11 @@ public class Runner {
             List<Trial> trials = jsonObjects.stream()
                     .map(TrialFactory::getTrialFromFactory)
                     .flatMap(Optional::stream)
+                    .map(Trial::copy)//!!!!!!!!!!!!!!!!!!!!!!!!
                     .collect(Collectors.toList());
 
             //2. Print the collection content (one element per line).
+
 
             trials.forEach(LOGGER::info);
 

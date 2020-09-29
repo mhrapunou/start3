@@ -24,10 +24,20 @@ public class TrialFactory {
     public static Optional<Trial> getTrialFromFactory(JsonObject jsonObject) {
 
         try {
-            String className = jsonObject.get(CLASS_FIELD).getAsString();
-            JsonObject args = jsonObject.get(ARGS_FIELD).getAsJsonObject();
+            String className = getValidJsonElement(jsonObject, CLASS_FIELD)
+                    .orElseThrow(IllegalArgumentException::new)
+                    .getAsString();
+            JsonObject args = getValidJsonElement(jsonObject, ARGS_FIELD)
+                    .orElseThrow(IllegalArgumentException::new)
+                    .getAsJsonObject();
+
+            if (jsonObject.size() != JSON_FIELDS_NUMBER) {
+                LOGGER.warn(EXTRA_DATA_IN_JSONOBJECT + ARRAY_DELIMITER + jsonObject);
+            }
+
             Class<Trial> classType = (Class<Trial>) Class.forName(PACKAGE_NAME + className);
             return Optional.of(GSON.fromJson(args, classType));
+
         } catch (IllegalArgumentException | ClassNotFoundException e) {
             LOGGER.error(e.getMessage() + ARRAY_DELIMITER + jsonObject);
             return Optional.empty();
@@ -35,5 +45,8 @@ public class TrialFactory {
 
     }
 
+    private static Optional<JsonElement> getValidJsonElement(JsonObject jsonObject, String argsName){
+        return Optional.ofNullable(jsonObject.get(argsName));
+    }
 
 }

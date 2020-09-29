@@ -38,10 +38,11 @@ public class TrialValidator {
         JsonElement account = args.get(ACCOUNT_FIELD);
         JsonElement mark1 = args.get(MARK1_FIELD);
         JsonElement mark2 = args.get(MARK2_FIELD);
-        if (Objects.isNull(account) || Objects.isNull(mark1) || Objects.isNull(mark2)) {
+        if (!isJsonElementValid(account) || !isJsonElementValid(mark1) || !isJsonElementValid(mark2)) {
             LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
             return false;
         }
+
         if (args.size() > TRIAL_FIELDS_NUMBER) {//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             LOGGER.info(EXTRA_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
         }
@@ -60,6 +61,10 @@ public class TrialValidator {
 
     protected Trial getTrial(){
         return trial;
+    }
+
+    protected static boolean isJsonElementValid(JsonElement element){
+        return Objects.nonNull(element) && element.isJsonPrimitive();
     }
 
     protected static boolean isMarkValid(int mark){
