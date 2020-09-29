@@ -11,7 +11,7 @@ import java.util.Objects;
 import static by.epam.inner.constants.Constants.*;
 
 public class ExtraTrialValidator extends TrialValidator {
-    private final ExtraTrial extraTrial;
+    private  ExtraTrial extraTrial;
 
     public ExtraTrialValidator(Class<? extends ExtraTrial> trialClass)  {
         super(trialClass);
@@ -30,8 +30,14 @@ public class ExtraTrialValidator extends TrialValidator {
             LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
             return false;
         }
+
+        if (args.size() > EXTRA_TRIAL_FIELDS_NUMBER) {//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            LOGGER.info(EXTRA_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
+
+        }
+
         if (isMarkValid(mark3.getAsInt())) {
-            extraTrial.setMark2(mark3.getAsInt());
+            extraTrial = new ExtraTrial(super.getTrial(), mark3.getAsInt());
             return true;
         }else {
             LOGGER.error(WRONG_TRIAL + EXCEPTION_DELIMITER + args);

@@ -18,7 +18,12 @@ public class ExtraTrial extends Trial {
 	public ExtraTrial(ExtraTrial trial) {
 		this(trial.getAccount(), trial.getMark1(), trial.getMark2(), trial.mark3);
 	}
-	
+
+	public ExtraTrial(Trial trial, int mark3) {
+		super(trial.getAccount(), trial.getMark1(), trial.getMark2());
+		this.mark3 = mark3;
+	}
+
 	public int getMark3() {
 		return mark3;
 	}

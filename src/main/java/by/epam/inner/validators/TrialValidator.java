@@ -43,7 +43,7 @@ public class TrialValidator {
             return false;
         }
 
-        if (args.size() > TRIAL_FIELDS_NUMBER) {//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (args.size() > TRIAL_FIELDS_NUMBER && !trial.getClass().getSimpleName().equals(EXTRA_TRIAL_NAME)) {//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             LOGGER.info(EXTRA_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
         }
         if (!account.getAsString().isEmpty()

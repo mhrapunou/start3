@@ -42,6 +42,8 @@ public class Constants {
 	public static final String FILE_NOT_FOUND = "couldn't open the file: ";
 	public static final String EMPTY_FILE_NAME = "File name is empty or null";
 
+	public static final String EXTRA_TRIAL_NAME = "ExtraTrial";
+
 
 
 	
