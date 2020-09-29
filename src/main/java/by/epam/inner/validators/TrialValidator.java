@@ -37,7 +37,7 @@ public class TrialValidator {
     protected boolean checkArgsAndSetFields(JsonObject args) {
         JsonElement account = args.get(ACCOUNT_FIELD);
         JsonElement mark1 = args.get(MARK1_FIELD);
-        JsonElement mark2 = args.get(MARK1_FIELD);
+        JsonElement mark2 = args.get(MARK2_FIELD);
         if (Objects.isNull(account) || Objects.isNull(mark1) || Objects.isNull(mark2)) {
             LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
             return false;
