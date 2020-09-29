@@ -48,7 +48,12 @@ public class TrialDeserializer implements JsonDeserializer<Trial> {
 
     private static Optional<TrialValidator<? extends Trial>> getTrialValidator(Class<? extends Trial> trialClass) {
         try {
-            return Optional.of((TrialValidator<? extends Trial>) TrialValidator.class.getConstructor(Class.class).newInstance(trialClass));
+            if (!trialClass.getSimpleName().equals(EXTRA_TRIAL_NAME)) {
+                return Optional.of((TrialValidator<? extends Trial>) TrialValidator.class.getConstructor(Class.class).newInstance(trialClass));
+            } else {
+                return  Optional.of((TrialValidator<? extends Trial>) ExtraTrialValidator.class.getConstructor(Class.class).newInstance(trialClass));
+            }
+
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             return Optional.empty();
         }
