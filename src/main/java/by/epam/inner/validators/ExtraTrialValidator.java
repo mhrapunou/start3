@@ -13,9 +13,13 @@ import static by.epam.inner.constants.Constants.*;
 public class ExtraTrialValidator extends TrialValidator {
     private final ExtraTrial extraTrial;
 
-    public ExtraTrialValidator(Class<? extends ExtraTrial> trialClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public ExtraTrialValidator(Class<? extends ExtraTrial> trialClass)  {
         super(trialClass);
-        this.extraTrial = trialClass.getConstructor().newInstance();
+        try {
+            this.extraTrial = trialClass.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new IllegalArgumentException(WRONG_CLASS_NAME);
+        }
     }
 
     @Override

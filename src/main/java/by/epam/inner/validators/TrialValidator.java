@@ -14,8 +14,12 @@ import static by.epam.inner.constants.Constants.*;
 public class TrialValidator {
     private final Trial trial;
 
-    public TrialValidator(Class<? extends Trial> trialClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        this.trial = trialClass.getConstructor().newInstance();
+    public TrialValidator(Class<? extends Trial> trialClass) {
+        try {
+            this.trial = trialClass.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new IllegalArgumentException(WRONG_CLASS_NAME);
+        }
     }
 
     public Optional<Trial> getValidTrial(JsonElement element){
