@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 public class Constants {
 
 	public static final Logger LOGGER = Logger.getLogger("logfile");
-	public static final Gson GSON = new Gson();
 
 	public final static String FILE_NAME = "src/in.json";
 	public final static String PACKAGE_NAME = Trial.class.getPackageName() + ".";

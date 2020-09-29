@@ -2,6 +2,7 @@
 import by.epam.inner.beans.Trial;
 import by.epam.inner.constants.Constants;
 import by.epam.inner.factories.TrialFactory;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,9 +28,9 @@ public class Runner {
         try {
             final String JSON_FILE_NAME = getValidArg(args[0]).orElseThrow(IllegalArgumentException::new);
 
-            Type type = new TypeToken<List<JsonObject>>() {
-            }.getType();
-            List<JsonObject> jsonObjects = GSON.fromJson(new FileReader(JSON_FILE_NAME), type);
+            Type type = new TypeToken<List<JsonObject>>() {}.getType();
+            Gson gson = new Gson();
+            List<JsonObject> jsonObjects = gson.fromJson(new FileReader(JSON_FILE_NAME), type);
 
             List<Trial> trials = jsonObjects.stream()
                     .map(TrialFactory::getTrialFromFactory)
