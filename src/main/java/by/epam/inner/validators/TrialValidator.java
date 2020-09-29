@@ -11,10 +11,10 @@ import java.util.Optional;
 
 import static by.epam.inner.constants.Constants.*;
 
-public class TrialValidator {
-    private final Trial trial;
+public class TrialValidator <T extends Trial> {
+    private final T trial;
 
-    public TrialValidator(Class<? extends Trial> trialClass) {
+    public TrialValidator(Class<T> trialClass) {
         try {
             this.trial = trialClass.getConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -59,7 +59,7 @@ public class TrialValidator {
         }
     }
 
-    protected Trial getTrial(){
+    protected T getTrial(){
         return trial;
     }
 

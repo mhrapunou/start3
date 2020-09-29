@@ -5,26 +5,23 @@ import by.epam.inner.beans.LightTrial;
 import by.epam.inner.beans.StrongTrial;
 import by.epam.inner.beans.Trial;
 import by.epam.inner.validators.ExtraTrialValidator;
-import by.epam.inner.validators.LightTrialValidator;
-import by.epam.inner.validators.StrongTrialValidator;
 import by.epam.inner.validators.TrialValidator;
 import com.google.gson.*;
 import static by.epam.inner.constants.Constants.*;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 
 public class TrialDeserializer implements JsonDeserializer<Trial> {
 
     private enum TrialKind {
-            TRIAL(new TrialValidator(Trial.class)),
-            LIGHTTRIAL(new LightTrialValidator(LightTrial.class)),
-            STRONGTRIAL(new StrongTrialValidator(StrongTrial.class)),
-            EXTRATRIAL(new ExtraTrialValidator(ExtraTrial.class));
+            TRIAL(new TrialValidator<Trial>(Trial.class)),
+            LIGHTTRIAL(new TrialValidator<LightTrial>(LightTrial.class)),
+            STRONGTRIAL(new TrialValidator<StrongTrial>(StrongTrial.class)),
+            EXTRATRIAL(new ExtraTrialValidator<ExtraTrial>(ExtraTrial.class));
 
-        private final TrialValidator validator;
+        private final TrialValidator<? extends Trial> validator;
 
-        TrialKind(TrialValidator validator) {
+        TrialKind(TrialValidator<? extends Trial> validator) {
                 this.validator = validator;
         }
 

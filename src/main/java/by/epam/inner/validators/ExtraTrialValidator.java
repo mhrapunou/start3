@@ -1,25 +1,17 @@
 package by.epam.inner.validators;
 
 import by.epam.inner.beans.ExtraTrial;
-import by.epam.inner.beans.Trial;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Objects;
 
 import static by.epam.inner.constants.Constants.*;
 
-public class ExtraTrialValidator extends TrialValidator {
-    private  ExtraTrial extraTrial;
+public class ExtraTrialValidator<T extends ExtraTrial> extends TrialValidator<ExtraTrial> {
 
-    public ExtraTrialValidator(Class<? extends ExtraTrial> trialClass)  {
+    public ExtraTrialValidator(Class<ExtraTrial> trialClass)  {
         super(trialClass);
-        try {
-            this.extraTrial = trialClass.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new IllegalArgumentException(WRONG_CLASS_NAME);
-        }
     }
 
     @Override
@@ -37,16 +29,12 @@ public class ExtraTrialValidator extends TrialValidator {
         }
 
         if (isMarkValid(mark3.getAsInt())) {
-            extraTrial = new ExtraTrial(super.getTrial(), mark3.getAsInt());
+            super.getTrial().setMark3(mark3.getAsInt());
             return true;
         }else {
             LOGGER.error(WRONG_TRIAL + EXCEPTION_DELIMITER + args);
             return false;
         }
-    }
-
-    protected Trial getTrial(){
-        return extraTrial;
     }
 
 }
