@@ -86,7 +86,7 @@ public class Runner {
         } catch (IllegalArgumentException e) {
             LOGGER.fatal(EMPTY_FILE_NAME);
         } catch (FileNotFoundException e) {
-            LOGGER.fatal(FILE_NOT_FOUND + FILE_NAME);
+            LOGGER.fatal(FILE_NOT_FOUND + args[0]);
         }
     }
 
