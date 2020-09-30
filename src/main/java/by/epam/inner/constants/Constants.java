@@ -17,6 +17,8 @@ public class Constants {
 	public final static String ARRAY_DELIMITER = ",";
 	public final static String EXCEPTION_DELIMITER = "=> ";
 
+	public final static String DOT_REGEX = "\\.";
+
 	public final static String CLASS_FIELD = "class";
 	public final static String ARGS_FIELD = "args";
 	public final static String ACCOUNT_FIELD = "account";
