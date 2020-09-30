@@ -4,13 +4,18 @@ import by.epam.inner.beans.ExtraTrial;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-public class ExtraTrialValidatorTest extends TestCase {
+public class ExtraTrialValidatorTest {
 
     JsonObject argsCorrect;
     JsonObject argsWrong;
     ExtraTrialValidator<ExtraTrial> extraTrialValidator;
 
+    @Before
     public void setUp()  {
         Gson gson = new Gson();
         String argsStrCorrect = "{\"account\":\"Right\",\"mark1\":97,\"mark2\":85,\"mark3\":88}";
@@ -20,17 +25,20 @@ public class ExtraTrialValidatorTest extends TestCase {
         extraTrialValidator = new ExtraTrialValidator<>(ExtraTrial.class);
     }
 
+    @After
     public void tearDown() {
         argsCorrect = null;
         argsWrong = null;
         extraTrialValidator = null;
     }
 
+    @Test
     public void testCheckArgsAndSetFields() {
-        assertTrue(extraTrialValidator.checkArgsAndSetFields(argsCorrect));
+        Assert.assertTrue(extraTrialValidator.checkArgsAndSetFields(argsCorrect));
     }
 
+    @Test
     public void testCheckArgsAndSetFieldsWrong() {
-        assertFalse(extraTrialValidator.checkArgsAndSetFields(argsWrong));
+        Assert.assertFalse(extraTrialValidator.checkArgsAndSetFields(argsWrong));
     }
 }
