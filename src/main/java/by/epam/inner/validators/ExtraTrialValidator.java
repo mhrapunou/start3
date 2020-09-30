@@ -4,8 +4,6 @@ import by.epam.inner.beans.ExtraTrial;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.lang.reflect.InvocationTargetException;
-
 import static by.epam.inner.constants.Constants.*;
 
 public class ExtraTrialValidator<T extends ExtraTrial> extends TrialValidator<ExtraTrial> {
@@ -19,7 +17,7 @@ public class ExtraTrialValidator<T extends ExtraTrial> extends TrialValidator<Ex
         super.checkArgsAndSetFields(args);
         JsonElement mark3 = args.get(MARK3_FIELD);
         if (!isJsonElementValid(mark3)) {
-            LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
+            //LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
             return false;
         }
 
@@ -32,7 +30,7 @@ public class ExtraTrialValidator<T extends ExtraTrial> extends TrialValidator<Ex
             super.getTrial().setMark3(mark3.getAsInt());
             return true;
         }else {
-            LOGGER.error(WRONG_TRIAL + EXCEPTION_DELIMITER + args);
+            //LOGGER.error(WRONG_TRIAL + EXCEPTION_DELIMITER + args);
             return false;
         }
     }

@@ -1,7 +1,6 @@
 package by.epam.inner.constants;
 
 import by.epam.inner.beans.Trial;
-import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
 public class Constants {

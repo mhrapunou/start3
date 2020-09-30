@@ -9,18 +9,15 @@ import by.epam.inner.validators.TrialValidator;
 import com.google.gson.*;
 import static by.epam.inner.constants.Constants.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
-import java.util.Optional;
 
 public class TrialDeserializer implements JsonDeserializer<Trial> {
 
     private enum TrialKind {
-            TRIAL(getTrialValidator(Trial.class).orElseThrow(IllegalArgumentException::new)),
-            LIGHTTRIAL(getTrialValidator(LightTrial.class).orElseThrow(IllegalArgumentException::new)),
-            STRONGTRIAL(getTrialValidator(StrongTrial.class).orElseThrow(IllegalArgumentException::new)),  //new TrialValidator<StrongTrial>(StrongTrial.class)
-            EXTRATRIAL(getTrialValidator(ExtraTrial.class).orElseThrow(IllegalArgumentException::new));
+            TRIAL(new TrialValidator<>(Trial.class)),
+            LIGHTTRIAL(new TrialValidator<>(LightTrial.class)),
+            STRONGTRIAL(new TrialValidator<>(StrongTrial.class)),
+            EXTRATRIAL(new ExtraTrialValidator<>(ExtraTrial.class));
 
         private final TrialValidator<? extends Trial> validator;
 
@@ -44,18 +41,5 @@ public class TrialDeserializer implements JsonDeserializer<Trial> {
         /*JsonObject jsonObject = element.getAsJsonObject();
         String trialKind = jsonObject.get(CLASS_FIELD).getAsString().toUpperCase();*/
         return TrialKind.valueOf(trialKind).getTrial(element);
-    }
-
-    private static Optional<TrialValidator<? extends Trial>> getTrialValidator(Class<? extends Trial> trialClass) {
-        try {
-            if (!trialClass.getSimpleName().equals(EXTRA_TRIAL_NAME)) {
-                return Optional.of((TrialValidator<? extends Trial>) TrialValidator.class.getConstructor(Class.class).newInstance(trialClass));
-            } else {
-                return  Optional.of((TrialValidator<? extends Trial>) ExtraTrialValidator.class.getConstructor(Class.class).newInstance(trialClass));
-            }
-
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            return Optional.empty();
-        }
     }
 }

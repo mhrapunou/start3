@@ -9,7 +9,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.function.ToIntFunction;
@@ -23,7 +22,7 @@ public class Runner {
 
     public static void main(String[] args) {
 
-        //1. Create an ArrayList implementation for 9 entities (3 � for a superclass and 2 � for every subclass).
+        //1. . Create the List implementation from a json file
 
         try {
             final String JSON_FILE_NAME = getValidArg(args[0]).orElseThrow(IllegalArgumentException::new);
@@ -85,7 +84,7 @@ public class Runner {
                     .mapToObj(Integer::toString)
                     .collect(Collectors.joining(ARRAY_DELIMITER)));
         } catch (IllegalArgumentException e) {
-            LOGGER.error(EMPTY_FILE_NAME);
+            LOGGER.fatal(EMPTY_FILE_NAME);
         } catch (FileNotFoundException e) {
             LOGGER.fatal(FILE_NOT_FOUND + FILE_NAME);
         }

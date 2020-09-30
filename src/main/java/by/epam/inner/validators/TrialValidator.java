@@ -1,6 +1,5 @@
 package by.epam.inner.validators;
 
-import by.epam.inner.beans.ExtraTrial;
 import by.epam.inner.beans.Trial;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -17,6 +16,8 @@ public class TrialValidator <T extends Trial> {
     public TrialValidator(Class<T> trialClass) {
         try {
             this.trial = trialClass.getConstructor().newInstance();
+            trialClass.cast(this.trial);
+
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new IllegalArgumentException(WRONG_CLASS_NAME );
         }
@@ -43,7 +44,7 @@ public class TrialValidator <T extends Trial> {
             return false;
         }
 
-        if (args.size() > TRIAL_FIELDS_NUMBER && !trial.getClass().getSimpleName().equals(EXTRA_TRIAL_NAME)) {//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (args.size() > TRIAL_FIELDS_NUMBER && !trial.getClass().getSimpleName().equals(EXTRA_TRIAL_NAME)) {
             LOGGER.info(EXTRA_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
         }
         if (!account.getAsString().isEmpty()
