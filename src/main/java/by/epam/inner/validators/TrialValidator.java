@@ -27,7 +27,6 @@ public class TrialValidator <T extends Trial> {
         JsonObject jsonObject = element.getAsJsonObject();
 
         if (!checkArgsAndSetFields(jsonObject)){
-            //LOGGER.warn(INCORRECT_DATA_IN_ARGS + EXCEPTION_DELIMITER + jsonObject);
             return Optional.empty();
         }else {
             return Optional.of(getTrial());
@@ -40,7 +39,6 @@ public class TrialValidator <T extends Trial> {
         JsonElement mark1 = args.get(MARK1_FIELD);
         JsonElement mark2 = args.get(MARK2_FIELD);
         if (!isJsonElementValid(account) || !isJsonElementValid(mark1) || !isJsonElementValid(mark2)) {
-            //LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
             return false;
         }
 
@@ -55,7 +53,6 @@ public class TrialValidator <T extends Trial> {
             trial.setMark2(mark2.getAsInt());
             return true;
         }else {
-            //LOGGER.error(WRONG_TRIAL + EXCEPTION_DELIMITER + args);
             return false;
         }
     }
