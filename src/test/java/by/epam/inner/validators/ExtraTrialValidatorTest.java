@@ -20,7 +20,7 @@ public class ExtraTrialValidatorTest extends TestCase {
         extraTrialValidator = new ExtraTrialValidator<>(ExtraTrial.class);
     }
 
-    public void tearDown() throws Exception {
+    public void tearDown() {
         argsCorrect = null;
         argsWrong = null;
         extraTrialValidator = null;
