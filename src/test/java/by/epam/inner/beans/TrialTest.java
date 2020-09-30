@@ -2,14 +2,19 @@ package by.epam.inner.beans;
 
 import by.epam.inner.beans.Trial;
 import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-public class TrialTest extends TestCase {
+public class TrialTest {
 
     Trial testTrialPassed;
     Trial testEqualTrial;
     Trial testTrialUnpassed;
     Trial emptyTrial;
 
+    @Before
     public void setUp()  {
         testTrialPassed = new Trial("Metelskaya", 78,85);
         testEqualTrial = new Trial(testTrialPassed);
@@ -17,55 +22,71 @@ public class TrialTest extends TestCase {
         emptyTrial = new Trial();
     }
 
+    @After
     public void tearDown() {
+        testTrialPassed = null;
+        testEqualTrial = null;
+        testTrialUnpassed = null;
+        emptyTrial = null;
     }
 
+    @Test
     public void testGetAccount() {
-        assertEquals("Metelskaya", testEqualTrial.getAccount());
+        Assert.assertEquals("Metelskaya", testEqualTrial.getAccount());
     }
 
+    @Test
     public void testGetMark1() {
-        assertEquals(78, testTrialPassed.getMark1());
+        Assert.assertEquals(78, testTrialPassed.getMark1());
     }
 
+    @Test
     public void testGetMark2() {
-        assertEquals(85, testTrialPassed.getMark2());
+        Assert.assertEquals(85, testTrialPassed.getMark2());
     }
 
+    @Test
     public void testSetAccount() {
         emptyTrial.setAccount("Stepanenko");
-        assertEquals("Stepanenko", emptyTrial.getAccount());
+        Assert.assertEquals("Stepanenko", emptyTrial.getAccount());
     }
 
+    @Test
     public void testSetMark1() {
         emptyTrial.setMark1(70);
-        assertEquals(70, emptyTrial.getMark1());
+        Assert.assertEquals(70, emptyTrial.getMark1());
     }
 
+    @Test
     public void testSetMark2() {
         emptyTrial.setMark2(65);
-        assertEquals(65, emptyTrial.getMark2());
+        Assert.assertEquals(65, emptyTrial.getMark2());
     }
 
+    @Test
     public void testClearMarks() {
         emptyTrial.clearMarks();
-        assertEquals(0, emptyTrial.getMark1() + emptyTrial.getMark2());
+        Assert.assertEquals(0, emptyTrial.getMark1() + emptyTrial.getMark2());
     }
 
+    @Test
     public void testCopy() {
-        assertEquals(testTrialPassed.getAccount(), testTrialPassed.copy().getAccount());
+        Assert.assertEquals(testTrialPassed.getAccount(), testTrialPassed.copy().getAccount());
     }
 
+    @Test
     public void testIsPassed() {
-        assertTrue(testTrialPassed.isPassed());
-        assertFalse(testTrialUnpassed.isPassed());
+        Assert.assertTrue(testTrialPassed.isPassed());
+        Assert.assertFalse(testTrialUnpassed.isPassed());
     }
 
+   @Test
    public void testGetMarksToString() {
-        assertEquals("78;85", testTrialPassed.getMarksToString());
+        Assert.assertEquals("78;85", testTrialPassed.getMarksToString());
     }
 
+    @Test
     public void testTestToString() {
-        assertEquals("Metelskaya;78;85;true", testTrialPassed.toString());
+        Assert.assertEquals("Metelskaya;78;85;true", testTrialPassed.toString());
     }
 }
