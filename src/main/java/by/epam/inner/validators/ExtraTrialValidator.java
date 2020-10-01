@@ -17,11 +17,10 @@ public class ExtraTrialValidator<T extends ExtraTrial> extends TrialValidator<Ex
         super.checkArgsAndSetFields(args);
         JsonElement mark3 = args.get(MARK3_FIELD);
         if (!isJsonElementValid(mark3)) {
-            //LOGGER.error(EMPTY_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
             return false;
         }
 
-        if (args.size() > EXTRA_TRIAL_FIELDS_NUMBER) {//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (args.size() > EXTRA_TRIAL_FIELDS_NUMBER) {
             LOGGER.info(EXTRA_DATA_IN_JSONOBJECT + EXCEPTION_DELIMITER + args);
 
         }
@@ -30,7 +29,6 @@ public class ExtraTrialValidator<T extends ExtraTrial> extends TrialValidator<Ex
             super.getTrial().setMark3(mark3.getAsInt());
             return true;
         }else {
-            //LOGGER.error(WRONG_TRIAL + EXCEPTION_DELIMITER + args);
             return false;
         }
     }

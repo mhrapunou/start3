@@ -31,7 +31,6 @@ public class TrialValidator <T extends Trial> {
         }else {
             return Optional.of(getTrial());
         }
-
     }
 
     protected boolean checkArgsAndSetFields(JsonObject args) {
@@ -57,15 +56,15 @@ public class TrialValidator <T extends Trial> {
         }
     }
 
-    protected T getTrial(){
-        return trial;
-    }
-
     protected static boolean isJsonElementValid(JsonElement element){
         return Objects.nonNull(element) && element.isJsonPrimitive();
     }
 
     protected static boolean isMarkValid(int mark){
         return mark >= 0 && mark <= 100;
+    }
+
+    protected T getTrial(){
+        return trial;
     }
 }
