@@ -14,7 +14,7 @@ public class ExtraTrialValidator<T extends ExtraTrial> extends TrialValidator<Ex
 
     @Override
     protected boolean checkArgsAndSetFields(JsonObject args){
-        super.checkArgsAndSetFields(args);
+
         JsonElement mark3 = args.get(MARK3_FIELD);
         if (!isJsonElementValid(mark3)) {
             return false;
@@ -25,7 +25,7 @@ public class ExtraTrialValidator<T extends ExtraTrial> extends TrialValidator<Ex
 
         }
 
-        if (isMarkValid(mark3.getAsInt())) {
+        if (isMarkValid(mark3.getAsInt()) && super.checkArgsAndSetFields(args)) {
             super.getTrial().setMark3(mark3.getAsInt());
             return true;
         }else {
